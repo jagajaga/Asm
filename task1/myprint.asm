@@ -5,10 +5,11 @@ section .text
 global main
 
 main:
-	mov edi, [esp + 8] ;argc[1] ; ORGAN DONOR - DJ SHADOW
-	test ebx, ebx
+	mov edi, [esp + 8] 
+	mov edi, [edi + 4] ;argc[1] ; ORGAN DONOR - DJ SHADOW
+	test edi, edi
 		jz noinput
-	xor bx, bx
+	xor ebx, ebx
 	jmp get_flags
 
 add_space:
@@ -55,8 +56,11 @@ get_length: ;COMMUNICATION BREAKDOWN - LED ZEPPELIN
 	inc edi
 	jmp get_length
 
-get_number: ;
-
+get_number: ;Dance Dance Dance - Beth Andersen
+	mov edi, [esp + 8]	
+	mov edi, [edi + 8] ; Flying - The Beatles
+	;TODO DOFIGA
+	
 
 
 
