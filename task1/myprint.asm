@@ -5,26 +5,29 @@ section .text
 global main
 
 main:
-	mov edi, [esp + 8] ;argc[1]
+	mov edi, [esp + 8] ;argc[1] ; ORGAN DONOR - DJ SHADOW
 	test ebx, ebx
 		jz noinput
-	xor bh, bh
+	xor bx, bx
 	jmp get_flags
 
-;bh = space plus minus zero negative
 add_space:
-	or bh, 10000b
+	or bh, 10000b ;bh = space plus minus zero negative ${input sign}
+	ret
 add_plus:
 	or bh, 1000b
+	ret
 add_minus:
 	or bh, 100b
+	ret
 add_zero:
 	or bh, 10b
+	ret
 
-get_flags:
+get_flags: ;BLACK DOG - LED ZEPPELIN
 	mov al, [edi]
 	test al, al
-		jz get_length
+		jz get_number
 	cmp al, ' '
 		je add_space
 	cmp al, '+'
@@ -33,8 +36,26 @@ get_flags:
 		je add_minus
 	cmp al, '0'
 		je add_zero
+		jg pre_get_length
 	inc edi
 	jmp get_flags
+
+pre_get_length: ;Pushin' buttons - Dj Shadow
+	xor al, al
+
+get_length: ;COMMUNICATION BREAKDOWN - LED ZEPPELIN
+	mov dl, [edi]
+	test dl, dl
+		jz get_number
+	sub dl, '0'
+	mov ah, 10
+	mul ah
+	add al, dl
+	mov bl, al ;bl - length
+	inc edi
+	jmp get_length
+
+get_number: ;
 
 
 
