@@ -1,5 +1,4 @@
 extern printf
-%define ANSWER_LENGTH 50
 
 section .text
 global main
@@ -64,7 +63,7 @@ add_bite:
 get_flags: ;BLACK DOG - LED ZEPPELIN
 	mov al, [edi]
 	test al, al
-		jz get_number
+		jz pre_get_number
 	cmp al, '0'
 		jg pre_get_length
 	cmp al, ' '
@@ -84,7 +83,7 @@ pre_get_length: ;Pushin' buttons - Dj Shadow
 get_length: ;COMMUNICATION BREAKDOWN - LED ZEPPELIN
 	mov dl, [edi]
 	test dl, dl
-		jz get_number
+		jz pre_get_number
 	sub dl, '0'
 	mov ah, 10
 	mul ah
@@ -109,7 +108,7 @@ check_bite: ;Stairway To Heaven - Led Zeppelin
 checking_ret:
 	ret
 
-get_number: ;Dance Dance Dance - Beth Andersen
+pre_get_number: ;Dance Dance Dance - Beth Andersen
 	mov edi, [esp + 8]	
 	mov edi, [edi + 8] ; Flying - The Beatles
 	mov al, [edi]
@@ -119,6 +118,14 @@ get_number: ;Dance Dance Dance - Beth Andersen
 	mov ah, 1
 	mov cl, [edi]
 	call check_bite
+	mov edi, esi
+	jmp get_number
+
+get_number: ; Ob-la-di - The Beatles
+	mov al, edi
+	call to_number
+	
+	
 	
 	
 
@@ -131,7 +138,16 @@ get_number: ;Dance Dance Dance - Beth Andersen
 
 
 
+to_number:
+	or al, 0x20
+	sub al, 48
+	cmp al, 9 
+		jle number_ret 
+	sub al, 39
+	ret
 
+number_ret:
+	ret
 
 
 
@@ -162,7 +178,7 @@ section .rodata
     formatd: db "%d", 0
 	noinputstring: db "No input", 10, 0
 section .data
-	answer: times ANSWER_LENGTH db 0
+	answer: times 50 db 0
 	answerend: db 0
 
 end
