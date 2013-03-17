@@ -12,17 +12,44 @@ main:
 	xor ebx, ebx
 	jmp get_flags
 
+
+pre_add_space:
+	je add_space
+	ret
+pre_add_plus:
+	je add_plus
+	ret
+pre_add_minus:
+	je add_minus
+	ret
+pre_add_zero:
+	je add_zero
+	ret
+pre_add_sign:
+	je add_sign
+	ret
+pre_add_bite:
+	je add_bite
+	ret
+
 add_space:
-	or bh, 10000b ;bh = space plus minus zero negative ${input sign}
+	or bh, 100000b ;bh = space plus minus zero negative ${input sign} ${input_bite}
 	ret
 add_plus:
-	or bh, 1000b
+	or bh, 10000b
 	ret
 add_minus:
-	or bh, 100b
+	or bh, 1000b
 	ret
 add_zero:
+	or bh, 100b
+	ret
+add_sign:
+	inc edi
 	or bh, 10b
+	ret
+add_bite:
+	or bh, 1b
 	ret
 
 get_flags: ;BLACK DOG - LED ZEPPELIN
@@ -30,13 +57,13 @@ get_flags: ;BLACK DOG - LED ZEPPELIN
 	test al, al
 		jz get_number
 	cmp al, ' '
-		je add_space
+		call add_space
 	cmp al, '+'
-		je add_plus
+		call add_plus
 	cmp al, '-'
-		je add_minus
+		call add_minus
 	cmp al, '0'
-		je add_zero
+		call add_zero
 		jg pre_get_length
 	inc edi
 	jmp get_flags
@@ -56,11 +83,24 @@ get_length: ;COMMUNICATION BREAKDOWN - LED ZEPPELIN
 	inc edi
 	jmp get_length
 
+check_bite:
+	mov al, [edi]
+	test al, al
+		jz ret
+	cmp ah, 32
+		je ret
+	
+	
+
+
 get_number: ;Dance Dance Dance - Beth Andersen
 	mov edi, [esp + 8]	
 	mov edi, [edi + 8] ; Flying - The Beatles
-	;TODO DOFIGA
-	
+	mov al, [edi]
+	cmp al, '-'
+		je add_sign
+	call check_bite
+
 
 
 
