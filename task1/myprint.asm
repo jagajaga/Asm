@@ -122,12 +122,31 @@ pre_get_number: ;Dance Dance Dance - Beth Andersen
 	jmp get_number
 
 get_number: ; Ob-la-di - The Beatles
-	mov al, edi
+	xor eax, eax
+	xor edx, edx
+	mov al, [edi]
 	call to_number
+	xor ecx, ecx
+	mov ecx, 4
+	number_loop:
+		mov dl, al
+		push ebx
+			mov bl, 1
+			shl bl, cl
+			and dl, bl
+			shr dl, cl
+		pop ebx
+		push ebx
+			and bl, 1
+			xor dl, bl
+		pop ebx
+		loop number_loop
+
 	
 	
 	
 	
+	
 
 
 
@@ -138,7 +157,7 @@ get_number: ; Ob-la-di - The Beatles
 
 
 
-to_number:
+to_number: ;Sunshine Superman - Donovan
 	or al, 0x20
 	sub al, 48
 	cmp al, 9 
