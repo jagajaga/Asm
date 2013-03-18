@@ -119,6 +119,7 @@ pre_get_number: ;Dance Dance Dance - Beth Andersen
 	mov cl, [edi]
 	call check_bite
 	mov edi, esi
+	mov ah, 1
 	jmp get_number
 
 get_number: ; Ob-la-di - The Beatles
@@ -131,16 +132,24 @@ get_number: ; Ob-la-di - The Beatles
 	number_loop:
 		mov dl, al
 		push ebx
-			mov bl, 1
-			shl bl, cl
-			and dl, bl
+			mov bh, 1
+			shl bh, cl
+			and dl, bh
 			shr dl, cl
 		pop ebx
 		push ebx
-			and bl, 1
-			xor dl, bl
+			and bh, 1
+			xor dl, bh
 		pop ebx
+		mov ebp, answerend
+		cmp dh, ah
+		call shl_number
+		call add_to_number
 		loop number_loop
+
+
+shl_number:
+	
 
 	
 	
