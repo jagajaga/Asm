@@ -126,9 +126,10 @@ get_number: ; Ob-la-di - The Beatles
 	xor eax, eax
 	xor edx, edx
 	mov al, [edi]
+	inc edi
 	call to_number
 	xor ecx, ecx
-	mov ecx, 4
+	mov ecx, 3
 	number_loop:
 		mov dl, al
 		push ebx
@@ -141,14 +142,37 @@ get_number: ; Ob-la-di - The Beatles
 			and bh, 1
 			xor dl, bh
 		pop ebx
-		mov ebp, answerend
-		cmp dh, ah
+		push ecx
+		mov ebp, answerend 
+		xor ecx, ecx
+		xor dh, dh
 		call shl_number
+
+
 		call add_to_number
+
+		pop ecx
 		loop number_loop
 
 
-shl_number:
+shl_number: ; From me to you - The Beatles
+	cmp ch, ah
+		je number_ret
+	call inc_count
+	mov dh, [ebp]
+	add dh, dh
+	add dh, cl
+	call carry
+
+
+
+inc_count:
+	cmp cl, 0
+		je number_ret
+	inc ah
+	ret
+
+carry:
 	
 
 	
