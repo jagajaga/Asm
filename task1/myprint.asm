@@ -171,7 +171,26 @@ shl_number: ; From me to you - The Beatles
 	jmp shl_number
 
 add_to_number:
-	
+	cmp ch, ah
+	call inc_count
+	je number_ret
+	cmp cl, 1
+		je atn1
+	cmp ch, 0
+		je atn1
+	ret
+atn1:
+	mov dh, [ebp]
+	add dh, dl
+	add dh, cl
+	xor cl, cl
+	cmp dh, 9
+	call carry
+	mov [ebp], dh
+	dec ebp
+	inc ch
+	jmp add_to_number
+
 
 inc_count:
 	jne number_ret
@@ -187,20 +206,6 @@ carry:
 	inc cl
 	sub dh, 10
 	ret
-	
-	
-	
-	
-	
-
-
-
-
-
-
-
-
-
 
 to_number: ;Sunshine Superman - Donovan
 	or al, 0x20
