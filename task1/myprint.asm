@@ -1,13 +1,16 @@
-extern printf
+extern _printf
 
 section .text
-global main
+global _main
 
-main:
-	mov edi, [esp + 8] 
-	mov edi, [edi + 4] ;argc[1] ; ORGAN DONOR - DJ SHADOW
+_main:
+	mov ebx, [esp + 8]
+	mov edi, [ebx + 4] ;argc[1] ; ORGAN DONOR - DJ SHADOW
 	test edi, edi
 		jz noinput
+	mov edi, [ebx + 8] 
+	test edi, edi
+		jz noflags	
 	xor ebx, ebx
 	jmp get_flags
 
@@ -108,9 +111,16 @@ check_bite: ;Stairway To Heaven - Led Zeppelin
 checking_ret:
 	ret
 
+noflags:
+	mov edi, [esp + 8]	
+	mov edi, [edi + 4]
+	xor ebx, ebx
+	jmp pre_get_number_2
+	
 pre_get_number: ;Dance Dance Dance - Beth Andersen
 	mov edi, [esp + 8]	
 	mov edi, [edi + 8] ; Flying - The Beatles
+pre_get_number_2:
 	mov al, [edi]
 	cmp al, '-'
 		call pre_add_sign
@@ -235,12 +245,12 @@ number_ret:
 noinput:
 	push noinputstring
 	push formats
-	call printf
+	call _printf
 	add esp, 8
 	call exit
-	
+	ret
 exit:
-
+	ret
 section .rodata
     formatc: db "%c", 0
 	formats: db "%s", 0
