@@ -14,9 +14,7 @@ main:
 	movupd xmm2, [three]
 	movupd xmm3, [four]
 	xorpd xmm4, xmm4
-	mov ecx, 60000000
-		
-
+	mov ecx, 30000000
 
 for:
 	movupd xmm5, xmm0
