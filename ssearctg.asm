@@ -14,7 +14,7 @@ main:
 	movupd xmm2, [three]
 	movupd xmm3, [four]
 	xorpd xmm4, xmm4
-	mov ecx, 30000000
+	mov ecx, 60000000
 		
 
 
@@ -48,4 +48,4 @@ section .data
 	four: dq 4.0
 	four_: dq 4.0
 	zero: dq 0.0
-	format: db "%.20lf %.20lf", 0
+	format: db "%.20lf", 0
