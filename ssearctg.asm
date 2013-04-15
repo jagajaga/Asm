@@ -1,40 +1,51 @@
 extern printf
+%define chislo 0.9999
 
 section .text
 global main
 
 main:
-	movsd xmm0, [number]
-	movsd xmm1, [one]
-	movsd xmm2, [number]
-	mulsd xmm2, [number]
-	movsd xmm3, [number]
-	mulsd xmm2, [mone]
-	mov ecx, 60000000
+	movupd xmm0, [number1]
+	movupd xmm1, [number]
+	mulsd xmm0, xmm1
+	mulsd xmm0, xmm1
+	mulpd xmm1, xmm1
+	mulpd xmm1, xmm1
+	movupd xmm2, [three]
+	movupd xmm3, [four]
+	xorpd xmm4, xmm4
+	mov ecx, 30000000
+		
+
 
 for:
-	addsd xmm1, [two]
-	mulsd xmm3, xmm2
-	movsd xmm4, xmm3
-	divsd xmm4, xmm1
-	addsd xmm0, xmm4
+	movupd xmm5, xmm0
+	divpd xmm5, xmm2
+ 	haddpd xmm5, xmm5	
+	addsd xmm4, xmm5
+	addpd xmm2, xmm3
+	mulpd xmm0, xmm1
 	
 	dec ecx
 	jnz for
 
 
 myprint:
-	sub esp, 8
-	movsd qword[esp], xmm0
+	sub esp, 16
+	movupd [esp], xmm4
 	push format
 	call printf
-	add esp, 12
+	add esp, 20
 	xor eax, eax
 	ret
 
 section .data
-	number: dq 0.9999
+	number1: dq -chislo
+	number: dq chislo
+	number_: dq chislo
+	three: dq 3.0	
 	one: dq 1.0
-	two: dq 2.0	
-	mone: dq -1.0
-	format: db "%.20lf", 0
+	four: dq 4.0
+	four_: dq 4.0
+	zero: dq 0.0
+	format: db "%.20lf %.20lf", 0
